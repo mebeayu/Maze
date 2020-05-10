@@ -34,9 +34,9 @@
             // layer
             // 
             this.layer.BackColor = System.Drawing.Color.Transparent;
-            this.layer.Location = new System.Drawing.Point(0, 0);
+            this.layer.Location = new System.Drawing.Point(2, 3);
             this.layer.Name = "layer";
-            this.layer.Size = new System.Drawing.Size(22, 23);
+            this.layer.Size = new System.Drawing.Size(10, 10);
             this.layer.TabIndex = 0;
             this.layer.Paint += new System.Windows.Forms.PaintEventHandler(this.layer_Paint);
             // 
@@ -51,7 +51,6 @@
             this.Name = "MainUI";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.MainUI_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainUI_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainUI_KeyDown);
             this.ResumeLayout(false);
 

@@ -153,6 +153,19 @@ namespace Maze
                 }
             }
         }
+        public void ClearRoadTag()
+        {
+            for (int i = 0; i < maze_size; i++)
+            {
+                for (int j = 0; j < maze_size; j++)
+                {
+                    if(maze_data[i][j]==up|| maze_data[i][j] == down || maze_data[i][j] == left || maze_data[i][j] == right)
+                    {
+                        maze_data[i][j] = road;
+                    }
+                }
+            }
+        }
         public bool FindPath(int size, int x, int y, int o, int p)
         {//find the path of the maze. x,y are the coordinate of the began point 
          //	and o,p are the coordinate of the end point 

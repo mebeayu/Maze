@@ -33,29 +33,8 @@ namespace MazeUI
         {
             InitializeComponent();
         }
-
-        private void MainUI_Load(object sender, EventArgs e)
+        public void ShowMaze()
         {
-            maze.InitializeMaze(80);
-            //maze.FindPath(maze.maze_size, 0, 0, maze.maze_size - 1, maze.maze_size - 1);
-            maze_data = maze.MazeData;
-            //Graphics gp = this.CreateGraphics();
-            pen_wall = new HatchBrush(HatchStyle.HorizontalBrick,
-                  Color.Gray, Color.LightGray);
-            pen_road = new SolidBrush(Color.Green);
-            pen_me = new SolidBrush(Color.Red);
-            pen_empty = new SolidBrush(Color.White);
-            ;
-            bmp = new Bitmap(top+maze.maze_size*width+5,left+ maze.maze_size * width+5);
-            layer.Width = bmp.Width+20;
-            layer.Height = bmp.Height+20;
-            gp = Graphics.FromImage(bmp);
-            
-            //gp.FillRectangle(pen_wall, new Rectangle(left, top, width, width));
-            //for (int i = 0; i < maze_data.Length; i++)
-            //{
-            //     //DrawWall(i, 0, gp);
-            //}
             for (int i = 0; i < maze_data.Length; i++)
             {
                 for (int j = 0; j < maze_data.Length; j++)
@@ -83,15 +62,42 @@ namespace MazeUI
             //gp.DrawLine(pen, left + (maze_data.Length * width), top, left + (maze_data.Length * width), top + (maze_data.Length * width));
             //this.CreateGraphics().
             cur_rc = DrawMe(cur_x, cur_y, gp);
+            Invalidate();
+        }
+        public void NewMaze()
+        {
+            cur_x = 0;
+            cur_y = 0;
+            maze.InitializeMaze(80);
+            bmp = new Bitmap(top + maze.maze_size * width + 5, left + maze.maze_size * width + 5);
+            gp = Graphics.FromImage(bmp);
+            //maze.FindPath(maze.maze_size, 0, 0, maze.maze_size - 1, maze.maze_size - 1);
+            maze_data = maze.MazeData;
+            //Graphics gp = this.CreateGraphics();
+            pen_wall = new HatchBrush(HatchStyle.HorizontalBrick,
+                  Color.Gray, Color.LightGray);
+            pen_road = new SolidBrush(Color.Green);
+            pen_me = new SolidBrush(Color.Red);
+            pen_empty = new SolidBrush(Color.White);
+            
+            layer.Top =  0;
+            layer.Left = 0;
+            layer.Width = bmp.Width + 20;
+            layer.Height = bmp.Height + 20;
 
+            //gp.FillRectangle(pen_wall, new Rectangle(left, top, width, width));
+            //for (int i = 0; i < maze_data.Length; i++)
+            //{
+            //     //DrawWall(i, 0, gp);
+            //}
+            
+        }
+        private void MainUI_Load(object sender, EventArgs e)
+        {
+            NewMaze();
+            ShowMaze();
         }
         
-        private void MainUI_Paint(object sender, PaintEventArgs e)
-        {
-
-            Graphics gp1 = e.Graphics;
-            gp1.DrawImage(bmp, 0, 0);
-        }
         private void DrawWall(int x,int y, Graphics gp)
         {
             Rectangle rc = new Rectangle(20+x*width,20+y*width, width, width);
@@ -175,11 +181,28 @@ namespace MazeUI
             {
                 MessageBox.Show("win");
             }
+            if (e.KeyCode==Keys.F1)
+            {
+                //maze.ClearRoadTag();
+                maze.FindPath(maze.maze_size, cur_x, cur_y, maze.maze_size - 1, maze.maze_size - 1);
+                //maze.ClearRoadTag();
+                //maze_data = null;
+                maze_data = maze.MazeData;
+                ShowMaze();
+            }
+            if (e.KeyCode == Keys.F5)
+            {
+                NewMaze();
+                ShowMaze();
+            }
         }
 
         private void layer_Paint(object sender, PaintEventArgs e)
         {
-           
+            Graphics gp1 = e.Graphics;
+            gp1.DrawImage(bmp, 0, 0);
         }
+
+
     }
 }
